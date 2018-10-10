@@ -1,0 +1,59 @@
+
+#include <iostream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+
+string convertToMilitaryTime(string time)
+{
+//gets colon and space position in the
+// given time string
+int colon = time.find(':');
+int space = time.find(' ');
+
+//extracts hours, minutes and meredian strings from the
+// input time string
+string hh = time.substr(0, colon);
+string mm = time.substr(colon+1, space-colon-1);
+string mer = time.substr(space+1);
+
+//converts hours from string format to integer
+int hours = atoi(hh.c_str());
+
+// updating hours based on meredian
+if(mer == "PM" &&hours != 12)
+hours = hours + 12;
+else if ( mer == "AM" &&hours == 12)
+hours = 0;
+
+//placing leading zero in hours if hour is one digit
+if( hours >= 0 &&hours <= 9)
+hh = "0";
+else
+hh = "";
+
+//converring modified hours to string format
+char H[5];
+hh += itoa(hours,H,10) ;
+
+//returns required output string
+return hh + mm + " hours";
+}
+
+// main function
+int main()
+{
+// inputs time in the form hh:mm AM/PM
+string time;
+cout << "Enter time (HH:MM AM) or (HH:MM PM): ";
+getline(cin,time);
+
+//calls convertToMilitaryTime to conevert the given
+//time into military time
+
+string milTime = convertToMilitaryTime(time);
+
+//displays to the console
+cout << milTime << endl;
+return 0;
+}
